@@ -1,10 +1,10 @@
-## Cf-worker-dir
+# CF-Worker-Dir
 
-Cf-worker-dir是一款适用于Cloudflare Worker平台上的云函数程序，可以使用它在一分钟内搭建属于自己的导航页面。Cf-worker-dir提供丰富的自定义配置，同时它还可以预留了接口帮助你售出自己域名。如果你的域名还没有搭建网站，不如先利用Cf-worker-dir让你的域名不再浪费。😉
+CF-Worker-Dir是一款适用于Cloudflare Worker平台上的云函数程序，可以使用它在一分钟内搭建属于自己的导航页面。CF-Worker-Dir提供丰富的自定义配置，同时它还可以预留了接口帮助你售出自己域名。如果你的域名还没有搭建网站，不如先利用CF-Worker-Dir让你的域名不再浪费。😉
 
 ### 演示地址
 
-🎉[演示地址](http://jishu.ge/)
+🎉[演示地址](http://gethe.best/)
 
 ### 系统安装
 
@@ -12,47 +12,47 @@ Cf-worker-dir是一款适用于Cloudflare Worker平台上的云函数程序，�
 2. 在Worker编辑页面左边粘贴 `index.js` 中的代码。
 3. 根据自身需要修改 `config` 的配置内容
 
-### 系统配置
+## 系统配置
 
-Cf-worker-dir允许用户自定义导航页面，配置内容如下：
-#### title
+CF-Worker-Dir允许用户自定义导航页面，配置内容如下：
+### title
 自定义网站标题
-#### subtitle
+### subtitle
 自定义网站副标题
-#### logo_icon
+### logo_icon
 选择网站logo icon 暂时只支持[semantic-ui icon](https://semantic-ui.com/elements/icon.html)
-#### selling_ads
+### selling_ads
 是否要开启网址售卖广告
-#### sell_info
+### sell_info
 广告信息
-> ##### domain
+> #### domain
 > 当前域名
-> ##### price
+> #### price
 > 价格
 > ##### mon_unit
 > 货币单位  [semantic-ui icon](https://semantic-ui.com/elements/icon.html#computers)
 > ##### contact
 > 联系方式
-> >#### type
+> >##### type
 > >通讯工具icon ("weixin","qq","telegram plane","envelope" or "phone") 
-> >#### type
+> >##### type
 > >号码/地址
-#### lists
+### lists
 网址信息
-> ##### name
+> #### name
 > 网址类别
-> ##### icon
+> #### icon
 > 网址类别icon 暂时只支持[semantic-ui icon](https://semantic-ui.com/elements/icon.html)
-> ##### list
+> #### list
 > 网址数组
-> >#### url
+> >##### url
 > >网站url
-> >#### name
+> >##### name
 > >网站名称
-> >#### name
+> >##### name
 > >网站描述
 
-#### 配置例子
+### 配置例子
 ```
 const config = {
   title: "自定义导航",                 //write your website title
@@ -86,6 +86,6 @@ const config = {
 }
 ```
 
-### Licence
+## Licence
 
 MIT

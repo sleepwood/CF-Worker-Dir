@@ -164,51 +164,9 @@ function renderHTML(list,seller,config) {
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <title>${config.title} - ${config.subtitle}</title>
       <link href="https://cdn.jsdelivr.net/npm/semantic-ui-css@2.4.1/semantic.min.css" rel="stylesheet">
-      <link href="style.css" rel="stylesheet">
+      <link href="https://cdn.jsdelivr.net/gh/sleepwood/cf-worker-dir/style.css" rel="stylesheet">
       <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/semantic-ui-css@2.4.1/semantic.min.js"></script>
-      
-      <style>
-        body{
-          height: 100%;
-          display: flex;
-          flex-direction:column;
-      　　-webkit-flex-direction:column;
-      　　-moz-flex-direction:column;
-      　　-o-flex-direction:column;
-        }
-        header{
-          text-align:center; 
-          flex: 0
-        }
-        h1{
-          display:inline-block;
-        }
-        #title{
-          padding:5rem 0;
-        }
-        main{
-          flex: 1;
-          padding-top:2rem;
-        }
-        footer{
-          flex: 0
-        }
-        .footer{
-          padding: 1rem 0;
-          text-align: center;
-          background-color: #eee;
-        }
-        .cards{
-          padding-bottom:2rem;
-        }
-        .card{
-          padding:.5rem;
-        }
-        #seller .list{
-          padding:0 5rem;
-        }
-      </style>
   </head>
   <body>
     <header>
