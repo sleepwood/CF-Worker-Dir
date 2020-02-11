@@ -7,7 +7,7 @@ Cf-worker-dir是一款适用于Cloudflare Worker平台上的云函数程序，�
 🎉[演示地址](http://jishu.ge/)
 
 ### 系统安装
-i
+
 1. 在 [Cloudflare Worker](https://workers.cloudflare.com/) 管理页面创建一个新的 **Worker** 。
 2. 在Worker编辑页面左边粘贴 `index.js` 中的代码。
 3. 根据自身需要修改 `config` 的配置内容
