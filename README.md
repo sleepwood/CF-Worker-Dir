@@ -1,37 +1,87 @@
-## Welcome to GitHub Pages
+## Cf-worker-dir
 
-You can use the [editor on GitHub](https://github.com/sleepwood/cf-worker-dir/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Cf-worker-dir是一款适用于Cloudflare Worker平台上的云函数程序，可以使用它在一分钟内搭建属于自己的导航页面。Cf-worker-dir提供丰富的自定义配置，同时它还可以预留了接口帮助你售出自己域名。如果你的域名还没有搭建网站，不如先利用Cf-worker-dir让你的域名不再浪费。😉
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### 系统安装
 
-### Markdown
+1. 在 [Cloudflare Worker](https://workers.cloudflare.com/) 管理页面创建一个新的 **Worker** 。
+2. 在Worker编辑页面左边粘贴 `index.js` 中的代码。
+3. 根据自身需要修改 `config` 的配置内容
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### 系统配置
 
-```markdown
-Syntax highlighted code block
+Cf-worker-dir允许用户自定义导航页面，配置内容如下：
+#### title
+自定义网站标题
+#### subtitle
+自定义网站副标题
+#### logo_icon
+选择网站logo icon 暂时只支持[semantic-ui icon](https://semantic-ui.com/elements/icon.html)
+#### selling_ads
+是否要开启网址售卖广告
+#### sell_info
+广告信息
+> ##### domain
+> 当前域名
+> ##### price
+> 价格
+> ##### mon_unit
+> 货币单位
+> ##### contact
+> 联系方式
+> >#### type
+> >通讯工具icon ("weixin","qq","telegram plane","envelope" or "phone") 
+> >#### type
+> >号码/地址
+#### lists
+网址信息
+> ##### name
+> 网址类别
+> ##### icon
+> 网址类别icon 暂时只支持[semantic-ui icon](https://semantic-ui.com/elements/icon.html)
+> ##### list
+> 网址数组
+> >#### url
+> >网站url
+> >#### name
+> >网站名称
+> >#### name
+> >网站描述
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+#### 配置例子
+```
+const config = {
+  title: "自定义导航",                 //write your website title
+  subtitle: "Cloudflare Workers Nav", //write your website subtitle
+  logo_icon: "sitemap",               //select your logo by semantic-ui icon (you can get more msg in:https://semantic-ui.com/elements/icon.html)
+  selling_ads: true,                  //Selling your domain or not.(turning on may be helpful for selling this domain by showing some ads.)
+  sell_info:{
+    domain:"example.com",
+    price:500,                        //domain price
+    mon_unit:"yen sign",              //monetary unit 
+    contact:[                         //how to contact you
+      {
+        type:"envelope",               //contact type ("weixin","qq","telegram plane","envelope" or "phone")
+        content:"info@example.com"
+      }
+    ]                        
+  },
+  lists: [                            //Url list
+    {
+      name:"技术",
+      icon:"code",
+      list:[
+        {
+          url:"https://oschina.net/",
+          name:"开源中国",
+          desc:"领先的中文开源技术社区"
+        }
+      ]
+    }
+  ]
+}
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Licence
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/sleepwood/cf-worker-dir/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+MIT
