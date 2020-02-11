@@ -3,7 +3,7 @@
  */
 const config = {
   title: "自定义导航",                 //write your website title
-  subtitle: "Cloudflare Workers Nav", //write your website subtitle
+  subtitle: "Cloudflare Workers Dir", //write your website subtitle
   logo_icon: "sitemap",               //select your logo by semantic-ui icon (you can get more msg in:https://semantic-ui.com/elements/icon.html)
   selling_ads: true,                  //Selling your domain or not.(turning on may be helpful for selling this domain by showing some ads.)
   sell_info:{
@@ -249,7 +249,7 @@ function renderHTML(list,seller,config) {
       </div>
     </main>
     <footer>
-      <div class="footer">Powered by CF-Workers-Nav &copy; Base on MIT License</div>
+      <div class="footer">Powered by <a href="https://github.com/sleepwood/cf-worker-dir" target="_blank">Cf-Worker-Dir</a> &copy; Base on MIT License</div>
     </footer>
     ${config.selling_ads ? seller : ''}
     <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
