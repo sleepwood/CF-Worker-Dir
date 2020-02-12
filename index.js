@@ -5,6 +5,24 @@ const config = {
   title: "自定义导航",                 //write your website title
   subtitle: "Cloudflare Workers Dir", //write your website subtitle
   logo_icon: "sitemap",               //select your logo by semantic-ui icon (you can get more msg in:https://semantic-ui.com/elements/icon.html)
+  search_engine:[                     //choose search engine which you use
+    {
+      name:"百 度",
+      template:"https://www.baidu.com/s?wd="
+    },
+    {
+      name:"谷 歌",
+      template:"https://www.google.com/search?q="
+    },
+    {
+      name:"必 应",
+      template:"https://www.bing.com/search?q="
+    },
+    {
+      name:"搜 狗",
+      template:"https://www.bing.com/search?q="
+    }
+  ],
   selling_ads: true,                  //Selling your domain or not.(turning on may be helpful for selling this domain by showing some ads.)
   sell_info:{
     domain:"example.com",
@@ -72,63 +90,70 @@ const config = {
     }
   ]
 }
+const el = (tag, attrs, content) => `<${tag} ${attrs.join(" ")}>${content}</${tag}>`;
 
-function renderLists() {
-  let main = "";
-  config.lists.forEach(item => {
-    let divider = '<h4 class="ui horizontal divider header"><i class="'+ item.icon +' icon"></i> '+ item.name +' </h4>';
-    let content = "";
-    item.list.forEach(link => {
-      let card = '<a class="card" href="'+ link.url +'" target="_blank"><div class="content"><img class="left floated mini ui image" src="'+ getFavicon(link.url) +'" /><div class="header">'+ link.name +'</div><div class="meta">'+ link.desc +'</div></div></a>';
-      content = content.concat(card);
-    });
-    main = main.concat(divider,'<div class="ui four stackable cards">', content,'</div>');
-  });
-  
-  return main;
+async function handleRequest(request) {
+  const init = {
+    headers: {
+      'content-type': 'text/html;charset=UTF-8',
+    },
+  }
+  return new Response(renderHTML(renderIndex(),config.selling_ads? renderSeller() :null), init);
+}
+addEventListener('fetch', event => {
+  return event.respondWith(handleRequest(event.request))
+})
+
+/** Render Functions
+ *  渲染模块函数
+ */
+
+function renderIndex(){
+  const footer = el('footer',[],el('div',['class="footer"'],'Powered by' + el('a',['class="ui label"','href="https://github.com/sleepwood/cf-worker-dir"','target="_blank"'],el('i',['class="github icon"'],"") + 'Cf-Worker-Dir') + ' &copy; Base on ' + el('a',['class="ui label"'],el('i',['class="balance scale icon"'],"") + 'MIT License')));
+  return renderHeader() + renderMain() + footer;
 }
 
-function renderSeller(info) {
-  let contact = "";
-  info.contact.forEach(item => {
-    let tmp = '<div class="item"><i class="'+item.type +' icon"></i><div class="content">'+ item.content +' </div></div>';
-    contact = contact.concat(tmp);
-  });
+function renderHeader(){
+  const option = (template,name) => el('option',[`value="${template}"`],name);
 
-  return `
-  <div id="seller" class="ui basic modal">
-    <h1 class="ui yellow dividing header">
-      <i class="gem outline icon"></i>
-      <div class="content">${info.domain} 正在出售</div>
-    </h1>
-    <div class="content">
-      <div class="ui basic segment">
-        <div class="ui two column stackable center aligned grid">
-          <div class="ui inverted vertical divider">感兴趣？</div>
-          <div class="middle aligned row">
-            <div class="column">
-              <div class="ui large yellow statistic">
-                <div class="value"><i class="${info.mon_unit} icon"></i> ${info.price} </div>
-              </div>
-            </div>
-            <div class="column">
-              <h3 class="ui center aligned icon inverted header"><i class="circular envelope open outline grey inverted icon"></i> 联系我 </h3>
-              <div class="ui relaxed celled large list">
-                ${contact}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="actions">
-      <div class="ui basic cancel inverted button">
-        <i class="reply icon"></i>
-        返回
-      </div>
-    </div>
-  </div>
-  `
+  var nav = el('div',['class="ui large secondary inverted menu"'],el('div',['class="item"'],el('p',['id="hitokoto"'],'条条大路通罗马')))
+  var title = el('h1',['class="ui inverted header"'],el('i',[`class="${config.logo_icon} icon"`],"") + el('div',['class="content"'],config.title + el('div',['class="sub header"'],config.subtitle)));
+  var select = el('select',['id="sengine"','class="ui compact selection dropdown"'],config.search_engine.map((item) =>{
+    return option(item.template,item.name);
+  }).join(""))
+  var input = el('div',['class="ui left action icon fluid input"'],select + el('input',['id="searchinput"','type="search"','placeholder="搜索你想要知道的……"'],"") + el('i',['class="inverted circular search link icon"'],""));
+  return el('header',[],el('div',['class="ui inverted vertical masthead center aligned segment"'],el('div',['class="ui container"'],nav) + el('div',['id="title"','class="ui text container"'],title + input + `${config.selling_ads ? '<a id="menubtn" class="red ui icon inverted button"><i class="heart icon"></i> 喜欢此域名 </a>' : ''}`)))
+}
+
+function renderMain() {
+  var main = '';
+  config.lists.forEach(item => {
+    const card = (url,name,desc)=> el('a',['class="card"',`href=${url}`,'target="_blank"'],el('div',['class="content"'],el('img',['class="left floated mini ui image"',`src=${getFavicon(url)}`],"") + el('div',['class="header"'],name) + el('div',['class="meta"'],desc)));
+    const divider = el('h4',['class="ui horizontal divider header">'],el('i',[`class="${item.icon} icon"`],"")+item.name);
+
+    var content = el('div',['class="ui four stackable cards"'],item.list.map((link) =>{
+      return card(link.url,link.name,link.desc);
+    }).join("")) 
+    main = main.concat(divider,content);
+  });
+  
+  return el('main',[],el('div',['class="ui container"'],main));
+}
+
+function renderSeller() {
+  const item = (type,content) => el('div',['class="item"'],el('i',[`class="${type} icon"`],"") + el('div',['class="content"'],content));
+  var title = el('h1',['class="ui yellow dividing header"'],el('i',['class="gem outline icon"'],"") + el('div',['class="content"'],config.sell_info.domain + ' 正在出售'));
+  var action = el('div',['class="actions"'],el('div',['class="ui basic cancel inverted button"'],el('i',['class="reply icon"'],"") + '返回'));
+
+  var contact = config.sell_info.contact.map((list) => {
+    return item(list.type,list.content);
+  }).join("");
+  console.log(contact);
+  var column = el('div',['class="column"'],el('h3',['class="ui center aligned icon inverted header"'],el('i',['class="circular envelope open outline grey inverted icon"'],"") + '联系我') + el('div',['class="ui relaxed celled large list"'],contact));
+  var price = el('div',['class="column"'],el('div',['class="ui large yellow statistic"'],el('div',['class="value"'],el('i',[`class="${config.sell_info.mon_unit} icon"`],"") + config.sell_info.price)));
+  var content = el('div',['class="content"'],el('div',['class="ui basic segment"'],el('div',['class="ui two column stackable center aligned grid"'],el('div',['class="ui inverted vertical divider"'],'感兴趣？') + el('div',['class="middle aligned row"'],price + column))));
+
+  return el('div',['id="seller"','class="ui basic modal"'],title + content + action);
 }
 
 /*通过分析链接 实时获取favicon
@@ -143,19 +168,7 @@ function getFavicon(url){
   
 }
 
-async function handleRequest(request) {
-  const init = {
-    headers: {
-      'content-type': 'text/html;charset=UTF-8',
-    },
-  }
-  return new Response(renderHTML(renderLists(),config.selling_ads? renderSeller(config.sell_info) :null,config), init);
-}
-addEventListener('fetch', event => {
-  return event.respondWith(handleRequest(event.request))
-})
-
-function renderHTML(list,seller,config) {
+function renderHTML(index,seller) {
   return `<!DOCTYPE html>
   <html lang="en">
   <head>
@@ -169,46 +182,7 @@ function renderHTML(list,seller,config) {
       <script src="https://cdn.jsdelivr.net/npm/semantic-ui-css@2.4.1/semantic.min.js"></script>
   </head>
   <body>
-    <header>
-      <div class="ui inverted vertical masthead center aligned segment">
-        <div class="ui container">
-          <div class="ui large secondary inverted menu">
-            <div class="item">
-              <p id="hitokoto">条条大路通罗马</p>
-            </div>
-            <div class="right item">
-            ${config.selling_ads ? '<a id="menubtn" class="red ui icon inverted button"><i class="heart icon"></i> 喜欢此域名 </a>' : ''}
-            </div>
-          </div>
-        </div>
-
-        <div id="title" class="ui text container">
-          <h1 class="ui inverted header">
-            <i class="${config.logo_icon} icon"></i>
-            <div class="content">${config.title}
-              <div class="sub header">${config.subtitle}</div>
-            </div>
-          </h1>
-          <div class="ui left action icon fluid input">
-            <select id="sengine" class="ui compact selection dropdown">
-              <option value="https://www.google.com/search?q=">谷 歌</option>
-              <option value="https://www.baidu.com/s?wd=">百 度</option>
-              <option value="https://www.bing.com/search?q=">必 应</option>
-            </select>
-            <input id="searchinput" type="search" placeholder="搜索你想要知道的……">
-            <i class="inverted circular search link icon"></i>
-          </div>
-        </div>
-      </div>
-    </header>
-    <main>
-      <div class="ui container">
-        ${list}
-      </div>
-    </main>
-    <footer>
-      <div class="footer">Powered by <a href="https://github.com/sleepwood/cf-worker-dir" target="_blank">Cf-Worker-Dir</a> &copy; Base on MIT License</div>
-    </footer>
+    ${index}
     ${config.selling_ads ? seller : ''}
     <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
     <script>
