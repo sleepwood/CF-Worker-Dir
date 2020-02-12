@@ -129,7 +129,7 @@ function renderMain() {
   var main = '';
   config.lists.forEach(item => {
     const card = (url,name,desc)=> el('a',['class="card"',`href=${url}`,'target="_blank"'],el('div',['class="content"'],el('img',['class="left floated mini ui image"',`src=${getFavicon(url)}`],"") + el('div',['class="header"'],name) + el('div',['class="meta"'],desc)));
-    const divider = el('h4',['class="ui horizontal divider header">'],el('i',[`class="${item.icon} icon"`],"")+item.name);
+    const divider = el('h4',['class="ui horizontal divider header"'],el('i',[`class="${item.icon} icon"`],"")+item.name);
 
     var content = el('div',['class="ui four stackable cards"'],item.list.map((link) =>{
       return card(link.url,link.name,link.desc);
