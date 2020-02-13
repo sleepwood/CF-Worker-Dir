@@ -11,7 +11,7 @@ header{
   text-align:center; 
   flex: 0
 }
-header .item{
+#nav header .item {
   display: inline-block;
   width: -webkit-fill-available;
 }

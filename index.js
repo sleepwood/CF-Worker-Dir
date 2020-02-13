@@ -114,15 +114,15 @@ function renderIndex(){
 }
 
 function renderHeader(){
-  const option = (template,name) => el('option',[`value="${template}"`],name);
+  const item = (template,name) => el('a',['class="active item"',`data-url="${template}"`],name);
 
   var nav = el('div',['class="ui large secondary inverted menu"'],el('div',['class="item"'],el('p',['id="hitokoto"'],'条条大路通罗马')))
   var title = el('h1',['class="ui inverted header"'],el('i',[`class="${config.logo_icon} icon"`],"") + el('div',['class="content"'],config.title + el('div',['class="sub header"'],config.subtitle)));
-  var select = el('select',['id="sengine"','class="ui compact selection dropdown"'],config.search_engine.map((item) =>{
-    return option(item.template,item.name);
+  var menu = el('div',['id="sengine"','class="ui bottom attached tabular inverted secondary menu"'],el('div',['class="header item"'],'&nbsp;') + config.search_engine.map((link) =>{
+    return item(link.template,link.name);
   }).join(""))
-  var input = el('div',['class="ui left action icon fluid input"'],select + el('input',['id="searchinput"','type="search"','placeholder="搜索你想要知道的……"'],"") + el('i',['class="inverted circular search link icon"'],""));
-  return el('header',[],el('div',['class="ui inverted vertical masthead center aligned segment"'],el('div',['class="ui container"'],nav) + el('div',['id="title"','class="ui text container"'],title + input + `${config.selling_ads ? '<a id="menubtn" class="red ui icon inverted button"><i class="heart icon"></i> 喜欢此域名 </a>' : ''}`)))
+  var input = el('div',['class="ui left corner labeled right icon fluid large input"'],el('div',['class="ui left corner label"'],el('img',['id="search-fav"','class="left floated avatar ui image"','src="https://www.baidu.com/favicon.ico"'],"")) + el('input',['id="searchinput"','type="search"','placeholder="搜索你想要知道的……"','autocomplete="off"'],"") + el('i',['class="inverted circular search link icon"'],""));
+  return el('header',[],el('div',['class="ui inverted vertical masthead center aligned segment"'],el('div',['id="nav"','class="ui container"'],nav) + el('div',['id="title"','class="ui text container"'],title + input + menu + `${config.selling_ads ? '<a id="menubtn" class="red ui icon inverted button"><i class="heart icon"></i> 喜欢此域名 </a>' : ''}`)))
 }
 
 function renderMain() {
@@ -148,7 +148,6 @@ function renderSeller() {
   var contact = config.sell_info.contact.map((list) => {
     return item(list.type,list.content);
   }).join("");
-  console.log(contact);
   var column = el('div',['class="column"'],el('h3',['class="ui center aligned icon inverted header"'],el('i',['class="circular envelope open outline grey inverted icon"'],"") + '联系我') + el('div',['class="ui relaxed celled large list"'],contact));
   var price = el('div',['class="column"'],el('div',['class="ui large yellow statistic"'],el('div',['class="value"'],el('i',[`class="${config.sell_info.mon_unit} icon"`],"") + config.sell_info.price)));
   var content = el('div',['class="content"'],el('div',['class="ui basic segment"'],el('div',['class="ui two column stackable center aligned grid"'],el('div',['class="ui inverted vertical divider"'],'感兴趣？') + el('div',['class="middle aligned row"'],price + column))));
@@ -186,14 +185,19 @@ function renderHTML(index,seller) {
     ${config.selling_ads ? seller : ''}
     <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
     <script>
-      $('.dropdown').dropdown();
-      $('.search').on('click',function(e){
-        var url = $('#sengine').val();
-        url = url.concat($('#searchinput').val());
-        window.open(url);
+      $('#sengine a').on('click', (e) => {
+        $('#sengine a.active').toggleClass('active');
+        $(e.target).toggleClass('active');
+        $('#search-fav').attr('src',$(e.target).data('url').match(`+/https{0,1}:\/\/\S+\//+`)[0] + '/favicon.ico') ;
+      });
+
+      $('.search').on('click', function (e) {
+          var url = $('#sengine a.active').data('url');
+          url = url.replace(/\$s/,$('#searchinput').val());
+          window.open(url);
       })
-      $('#menubtn').on('click',(e)=>{
-        $('#seller').modal('show');
+      $('#menubtn').on('click', (e) => {
+          $('#seller').modal('show');
       })
     </script>
   </body>
