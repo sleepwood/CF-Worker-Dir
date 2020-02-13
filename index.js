@@ -20,7 +20,7 @@ const config = {
     },
     {
       name:"搜 狗",
-      template:"https://www.bing.com/search?q=$s"
+      template:"https://www.sogou.com/web?query=$s"
     }
   ],
   selling_ads: true,                  //Selling your domain or not.(turning on may be helpful for selling this domain by showing some ads.)
@@ -114,12 +114,16 @@ function renderIndex(){
 }
 
 function renderHeader(){
-  const item = (template,name) => el('a',['class="active item"',`data-url="${template}"`],name);
+  const item = (template,name) => el('a',['class="item"',`data-url="${template}"`],name);
 
   var nav = el('div',['class="ui large secondary inverted menu"'],el('div',['class="item"'],el('p',['id="hitokoto"'],'条条大路通罗马')))
   var title = el('h1',['class="ui inverted header"'],el('i',[`class="${config.logo_icon} icon"`],"") + el('div',['class="content"'],config.title + el('div',['class="sub header"'],config.subtitle)));
-  var menu = el('div',['id="sengine"','class="ui bottom attached tabular inverted secondary menu"'],el('div',['class="header item"'],'&nbsp;') + config.search_engine.map((link) =>{
-    return item(link.template,link.name);
+  var menu = el('div',['id="sengine"','class="ui bottom attached tabular inverted secondary menu"'],el('div',['class="header item"'],'&nbsp;') + config.search_engine.map((link,key) =>{
+    if(key == 0){
+      return el('a',['class="active item"',`data-url="${link.template}"`],link.name);
+    }else{
+      return item(link.template,link.name);
+    }
   }).join(""))
   var input = el('div',['class="ui left corner labeled right icon fluid large input"'],el('div',['class="ui left corner label"'],el('img',['id="search-fav"','class="left floated avatar ui image"','src="https://www.baidu.com/favicon.ico"'],"")) + el('input',['id="searchinput"','type="search"','placeholder="搜索你想要知道的……"','autocomplete="off"'],"") + el('i',['class="inverted circular search link icon"'],""));
   return el('header',[],el('div',['class="ui inverted vertical masthead center aligned segment"'],el('div',['id="nav"','class="ui container"'],nav) + el('div',['id="title"','class="ui text container"'],title + input + menu + `${config.selling_ads ? '<a id="menubtn" class="red ui icon inverted button"><i class="heart icon"></i> 喜欢此域名 </a>' : ''}`)))
@@ -176,7 +180,7 @@ function renderHTML(index,seller) {
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <title>${config.title} - ${config.subtitle}</title>
       <link href="https://cdn.jsdelivr.net/npm/semantic-ui-css@2.4.1/semantic.min.css" rel="stylesheet">
-      <link href="https://cdn.jsdelivr.net/gh/sleepwood/cf-worker-dir/style.css" rel="stylesheet">
+      <link href="https://cdn.jsdelivr.net/gh/sleepwood/cf-worker-dir@master/style.css" rel="stylesheet">
       <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/semantic-ui-css@2.4.1/semantic.min.js"></script>
   </head>
