@@ -193,7 +193,7 @@ function renderHTML(index,seller) {
 
       $('.search').on('click', function (e) {
           var url = $('#sengine a.active').data('url');
-          url = url.replace(/\$s/,$('#searchinput').val());
+          url = url.replace(`+/\$s/+`,$('#searchinput').val());
           window.open(url);
       })
       $('#menubtn').on('click', (e) => {
