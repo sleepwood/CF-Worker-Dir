@@ -8,19 +8,19 @@ const config = {
   search_engine:[                     //choose search engine which you use
     {
       name:"百 度",
-      template:"https://www.baidu.com/s?wd="
+      template:"https://www.baidu.com/s?wd=$s"
     },
     {
       name:"谷 歌",
-      template:"https://www.google.com/search?q="
+      template:"https://www.google.com/search?q=$s"
     },
     {
       name:"必 应",
-      template:"https://www.bing.com/search?q="
+      template:"https://www.bing.com/search?q=$s"
     },
     {
       name:"搜 狗",
-      template:"https://www.bing.com/search?q="
+      template:"https://www.bing.com/search?q=$s"
     }
   ],
   selling_ads: true,                  //Selling your domain or not.(turning on may be helpful for selling this domain by showing some ads.)
