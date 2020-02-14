@@ -126,20 +126,20 @@ function renderHeader(){
     }
   }).join(""))
   var input = el('div',['class="ui left corner labeled right icon fluid large input"'],el('div',['class="ui left corner label"'],el('img',['id="search-fav"','class="left floated avatar ui image"','src="https://www.baidu.com/favicon.ico"'],"")) + el('input',['id="searchinput"','type="search"','placeholder="搜索你想要知道的……"','autocomplete="off"'],"") + el('i',['class="inverted circular search link icon"'],""));
-  return el('header',[],el('div',['class="ui inverted vertical masthead center aligned segment"'],el('div',['id="nav"','class="ui container"'],nav) + el('div',['id="title"','class="ui text container"'],title + input + menu + `${config.selling_ads ? '<a id="menubtn" class="red ui icon inverted button"><i class="heart icon"></i> 喜欢此域名 </a>' : ''}`)))
+  return el('header',[],el('div',['id="head"','class="ui inverted vertical masthead center aligned segment"'],el('div',['id="nav"','class="ui container"'],nav) + el('div',['id="title"','class="ui text container"'],title + input + menu + `${config.selling_ads ? '<a id="menubtn" class="red ui icon inverted button"><i class="heart icon"></i> 喜欢此域名 </a>' : ''}`)))
 }
 
 function renderMain() {
-  var main = '';
-  config.lists.forEach(item => {
+  var main = config.lists.map((item) => {
     const card = (url,name,desc)=> el('a',['class="card"',`href=${url}`,'target="_blank"'],el('div',['class="content"'],el('img',['class="left floated mini ui image"',`src=${getFavicon(url)}`],"") + el('div',['class="header"'],name) + el('div',['class="meta"'],desc)));
     const divider = el('h4',['class="ui horizontal divider header"'],el('i',[`class="${item.icon} icon"`],"")+item.name);
 
     var content = el('div',['class="ui four stackable cards"'],item.list.map((link) =>{
       return card(link.url,link.name,link.desc);
-    }).join("")) 
-    main = main.concat(divider,content);
-  });
+    }).join(""));
+
+    return el('div',['class="ui basic segment"'],divider + content);
+  }).join("");
   
   return el('main',[],el('div',['class="ui container"'],main));
 }

@@ -13,6 +13,10 @@ header {
   flex: 0
 }
 
+#head {
+  background-image: linear-gradient(to top, #537895 0%, #09203f 100%);
+}
+
 #nav .item {
   display: inline-block;
   width: -webkit-fill-available;
@@ -32,7 +36,23 @@ h1 {
 
 main {
   flex: 1;
-  padding-top: 2rem;
+  padding: 2rem 0;
+  background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%);
+  background-blend-mode: screen;
+}
+
+main .container{
+  height: 100%;
+  display: flex !important;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -o-flex-direction: column;
+}
+
+main .segment {
+  flex: 1;
+  padding: 2rem 0;
 }
 
 footer {
@@ -42,11 +62,7 @@ footer {
 .footer {
   padding: 1rem 0;
   text-align: center;
-  background-color: #eee;
-}
-
-.cards {
-  padding-bottom: 2rem;
+  background-color: #ddd;
 }
 
 .card {
