@@ -10,7 +10,7 @@ body {
 
 header {
   text-align: center;
-  flex: 0
+  flex-grow: 0;
 }
 
 #head {
@@ -35,7 +35,7 @@ h1 {
 }
 
 main {
-  flex: 1;
+  flex-basis: auto;
   padding: 2rem 0;
   background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%);
   background-blend-mode: screen;
@@ -51,12 +51,16 @@ main .container{
 }
 
 main .segment {
-  flex: 1;
-  padding: 2rem 0;
+  flex-grow: 1;
+  margin: 0 !important;
+}
+
+.segment h4{
+  padding-bottom: .5rem !important;
 }
 
 footer {
-  flex: 0
+  flex-grow: 0
 }
 
 .footer {

@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "CF-Worker-Dir",
-  "version": "1.0.1",
+  "version": "0.1.1",
   "description": "A template for kick starting a Cloudflare Workers project",
   "main": "index.js",
   "scripts": {
