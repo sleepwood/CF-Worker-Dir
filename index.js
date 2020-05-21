@@ -110,12 +110,15 @@ addEventListener('fetch', event => {
 * @url 需要分析的Url地址
 */
 function getFavicon(url){
-  if(url.match(/https{0,1}:\/\//)){
+  if(url.match(/https{1}:\/\//)){
     //return "https://ui-avatars.com/api/?bold=true&size=36&background=0D8ABC&color=fff&rounded=true&name=" + url.split('//')[1];
-    return "https://icon.occ.hk/get.php?url=" + url;
+    return "https://icon.occ.hk/get.php?url=" + url.slice(8);
+  }else if(url.match(/http{1}:\/\//)){
+    //return "https://ui-avatars.com/api/?bold=true&size=36&background=0D8ABC&color=fff&rounded=true&name=" + url.split('//')[1];
+    return "https://icon.occ.hk/get.php?url=" + url.slice(7);
   }else{
-    //return "https://ui-avatars.com/api/?bold=true&size=36&background=0D8ABC&color=fff&rounded=true&name=" + url;
-    return "https://icon.occ.hk/get.php?url=http://" + url;
+    return "https://ui-avatars.com/api/?bold=true&size=36&background=0D8ABC&color=fff&rounded=true&name=" + url;
+    //return "https://icon.occ.hk/get.php?url=http://" + url;
   } 
 }
 
